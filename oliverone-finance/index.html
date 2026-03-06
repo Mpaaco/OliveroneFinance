@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Oliverone Finance</title>
+    <meta name="description" content="Gerenciamento financeiro pessoal simples e eficiente">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- ═══ LOADING SCREEN ═══════════════════════════════════════ -->
+    <div id="loading-screen" class="screen active">
+        <div class="loading-bg"></div>
+        <div class="loading-content">
+            <div class="loading-logo">
+                <div class="logo-ring">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <h1 class="app-title">Oliverone<span>Finance</span></h1>
+                <p class="loading-sub">Controle financeiro inteligente</p>
+            </div>
+            <div class="loading-dots">
+                <span></span><span></span><span></span><span></span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ SIDEBAR ══════════════════════════════════════════════ -->
+    <div id="sidebar" class="sidebar">
+        <div class="sidebar-header">
+            <div class="sidebar-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>Oliverone Finance</span>
+            </div>
+            <button id="close-sidebar" class="icon-btn" aria-label="Fechar menu">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#" data-screen="home" class="nav-item active">
+                <i class="fas fa-home"></i>
+                <span>Início</span>
+            </a>
+            <a href="#" data-screen="monthly-register" class="nav-item">
+                <i class="fas fa-calendar-alt"></i>
+                <span>Registro Mensal</span>
+            </a>
+            <a href="#" data-screen="new-expense" class="nav-item">
+                <i class="fas fa-minus-circle"></i>
+                <span>Novo Gasto</span>
+            </a>
+            <a href="#" data-screen="new-income" class="nav-item">
+                <i class="fas fa-plus-circle"></i>
+                <span>Novo Recebimento</span>
+            </a>
+            <a href="#" data-screen="financial-report" class="nav-item">
+                <i class="fas fa-chart-bar"></i>
+                <span>Relatório</span>
+            </a>
+        </nav>
+    </div>
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- ═══ HEADER ═══════════════════════════════════════════════ -->
+    <header id="main-header" class="main-header" style="display:none">
+        <button id="menu-toggle" class="icon-btn" aria-label="Abrir menu">
+            <i class="fas fa-bars"></i>
+        </button>
+        <h1 id="page-title">Oliverone Finance</h1>
+        <div class="header-actions">
+            <button class="icon-btn" id="theme-toggle" aria-label="Alternar tema">
+                <i class="fas fa-sun"></i>
+            </button>
+            <button class="icon-btn" id="refresh-btn" aria-label="Atualizar">
+                <i class="fas fa-sync-alt"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- ═══ HOME SCREEN ══════════════════════════════════════════ -->
+    <div id="home-screen" class="screen">
+        <div class="container">
+
+            <div class="financial-summary">
+                <div class="summary-card balance-card">
+                    <div class="card-glow green"></div>
+                    <div class="card-icon-wrap green">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-label">Saldo Atual</span>
+                        <p class="amount positive" id="current-balance">R$ 0,00</p>
+                    </div>
+                </div>
+
+                <div class="summary-card debt-card">
+                    <div class="card-glow red"></div>
+                    <div class="card-icon-wrap red">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-label">Valor Devedor</span>
+                        <p class="amount negative" id="debt-amount">R$ 0,00</p>
+                    </div>
+                </div>
+
+                <div class="summary-card expenses-card">
+                    <div class="card-glow amber"></div>
+                    <div class="card-icon-wrap amber">
+                        <i class="fas fa-arrow-trend-down"></i>
+                    </div>
+                    <div class="card-body">
+                        <span class="card-label">Gastos Totais</span>
+                        <p class="amount negative" id="total-expenses">R$ 0,00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <h3><i class="fas fa-history"></i> Últimos Gastos</h3>
+                </div>
+                <div id="recent-expenses-list" class="transactions-list">
+                    <div class="empty-state">
+                        <i class="fas fa-receipt"></i>
+                        <p>Nenhum gasto registrado ainda</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ MONTHLY REGISTER ════════════════════════════════════ -->
+    <div id="monthly-register-screen" class="screen">
+        <div class="container">
+            <div class="form-card">
+                <div class="form-card-header">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h2>Registro Mensal</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="monthly-income">Renda Mensal</label>
+                    <div class="input-group">
+                        <span class="input-prefix">R$</span>
+                        <input type="number" id="monthly-income" placeholder="0,00" step="0.01" min="0">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Gastos Fixos Mensais</label>
+                    <div id="fixed-expenses-container"></div>
+                    <button type="button" id="add-fixed-expense" class="add-btn">
+                        <i class="fas fa-plus"></i> Adicionar Gasto Fixo
+                    </button>
+                </div>
+
+                <button type="button" id="save-monthly-data" class="primary-btn">
+                    <i class="fas fa-save"></i> Salvar Dados Mensais
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ NEW EXPENSE ══════════════════════════════════════════ -->
+    <div id="new-expense-screen" class="screen">
+        <div class="container">
+            <div class="form-card">
+                <div class="form-card-header expense">
+                    <i class="fas fa-minus-circle"></i>
+                    <h2>Novo Gasto</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="expense-description">Descrição <span class="required">*</span></label>
+                    <input type="text" id="expense-description" placeholder="Ex: Almoço, Transporte">
+                </div>
+
+                <div class="form-group">
+                    <label for="expense-amount">Valor <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-prefix">R$</span>
+                        <input type="number" id="expense-amount" placeholder="0,00" step="0.01" min="0.01">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="expense-date">Data <span class="required">*</span></label>
+                    <input type="date" id="expense-date">
+                </div>
+
+                <div class="form-group">
+                    <label for="expense-category">Categoria</label>
+                    <select id="expense-category">
+                        <option value="">Selecione uma categoria</option>
+                        <option value="alimentacao">🍽️ Alimentação</option>
+                        <option value="transporte">🚗 Transporte</option>
+                        <option value="lazer">🎮 Lazer</option>
+                        <option value="educacao">📚 Educação</option>
+                        <option value="saude">❤️ Saúde</option>
+                        <option value="casa">🏠 Casa</option>
+                        <option value="outros">🏷️ Outros</option>
+                    </select>
+                </div>
+
+                <button type="button" id="save-expense" class="primary-btn danger-btn">
+                    <i class="fas fa-save"></i> Salvar Gasto
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ NEW INCOME ═══════════════════════════════════════════ -->
+    <div id="new-income-screen" class="screen">
+        <div class="container">
+            <div class="form-card">
+                <div class="form-card-header income">
+                    <i class="fas fa-plus-circle"></i>
+                    <h2>Novo Recebimento</h2>
+                </div>
+
+                <div class="form-group">
+                    <label for="income-description">Descrição <span class="required">*</span></label>
+                    <input type="text" id="income-description" placeholder="Ex: Bônus, Freelance">
+                </div>
+
+                <div class="form-group">
+                    <label for="income-amount">Valor <span class="required">*</span></label>
+                    <div class="input-group">
+                        <span class="input-prefix">R$</span>
+                        <input type="number" id="income-amount" placeholder="0,00" step="0.01" min="0.01">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="income-date">Data <span class="required">*</span></label>
+                    <input type="date" id="income-date">
+                </div>
+
+                <button type="button" id="save-income" class="primary-btn success-btn">
+                    <i class="fas fa-save"></i> Salvar Recebimento
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ═══ FINANCIAL REPORT ════════════════════════════════════ -->
+    <div id="financial-report-screen" class="screen">
+        <div class="container">
+
+            <div class="report-summary">
+                <div class="report-card income-card">
+                    <span class="report-label">Total Recebido</span>
+                    <p class="amount positive" id="report-total-income">R$ 0,00</p>
+                </div>
+                <div class="report-card expense-card">
+                    <span class="report-label">Total Gasto</span>
+                    <p class="amount negative" id="report-total-expenses">R$ 0,00</p>
+                </div>
+                <div class="report-card balance-report-card">
+                    <span class="report-label">Saldo Final</span>
+                    <p class="amount" id="report-final-balance">R$ 0,00</p>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="report-filters">
+                    <div class="filter-row">
+                        <div class="filter-group">
+                            <label for="report-month">Mês</label>
+                            <select id="report-month">
+                                <option value="">Todos</option>
+                                <option value="01">Janeiro</option>
+                                <option value="02">Fevereiro</option>
+                                <option value="03">Março</option>
+                                <option value="04">Abril</option>
+                                <option value="05">Maio</option>
+                                <option value="06">Junho</option>
+                                <option value="07">Julho</option>
+                                <option value="08">Agosto</option>
+                                <option value="09">Setembro</option>
+                                <option value="10">Outubro</option>
+                                <option value="11">Novembro</option>
+                                <option value="12">Dezembro</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label for="report-year">Ano</label>
+                            <select id="report-year">
+                                <option value="">Todos</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="search-group">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="report-search" placeholder="Buscar transação...">
+                    </div>
+                </div>
+
+                <div class="section-header">
+                    <h3><i class="fas fa-list"></i> Histórico de Transações</h3>
+                    <div class="report-actions">
+                        <button type="button" id="export-btn" class="action-btn" title="Exportar backup">
+                            <i class="fas fa-download"></i> Exportar
+                        </button>
+                        <button type="button" id="import-btn" class="action-btn" title="Importar backup">
+                            <i class="fas fa-upload"></i> Importar
+                        </button>
+                        <input type="file" id="import-file" accept=".json" style="display:none">
+                    </div>
+                </div>
+
+                <div id="transactions-history-list" class="transactions-list">
+                    <div class="empty-state">
+                        <i class="fas fa-chart-line"></i>
+                        <p>Nenhuma transação encontrada</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- ═══ BOTTOM NAVIGATION (Mobile) ══════════════════════════ -->
+    <nav class="bottom-nav">
+        <a href="#" data-screen="home" class="bottom-nav-item active">
+            <i class="fas fa-home"></i>
+            <span>Início</span>
+        </a>
+        <a href="#" data-screen="monthly-register" class="bottom-nav-item">
+            <i class="fas fa-calendar-alt"></i>
+            <span>Mensal</span>
+        </a>
+        <a href="#" data-screen="new-expense" class="bottom-nav-item">
+            <i class="fas fa-minus-circle"></i>
+            <span>Gasto</span>
+        </a>
+        <a href="#" data-screen="new-income" class="bottom-nav-item">
+            <i class="fas fa-plus-circle"></i>
+            <span>Receita</span>
+        </a>
+        <a href="#" data-screen="financial-report" class="bottom-nav-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Relatório</span>
+        </a>
+    </nav>
+
+    <!-- ═══ TOAST ════════════════════════════════════════════════ -->
+    <div id="toast" class="toast">
+        <div class="toast-content">
+            <i class="toast-icon"></i>
+            <span class="toast-message"></span>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/finance.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>
